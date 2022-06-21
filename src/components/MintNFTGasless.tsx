@@ -39,7 +39,7 @@ export default function MintNFTGasless(props:Props){
 
     token.ownerOf(tokenId).then((result:string)=>{
       toast({
-        title: "Token Id already exist",
+        title: "Token Id is already taken",
         status: 'error',
         isClosable: true,
       })
