@@ -5,7 +5,7 @@ import { Contract } from "@ethersproject/contracts";
 import { Button, NumberInput, NumberInputField, FormControl, Heading } from '@chakra-ui/react'
 import { BadgeTokenABI } from "abi/BadgeTokenABI"
 import { useToast } from '@chakra-ui/react'
-import { helperMint } from "../eth/mintHepler"
+import { helperMint, checkAvailable } from "../eth/mintHepler"
 
 interface Props {
     addressContract: string
@@ -35,33 +35,26 @@ export default function MintNFTGasless(props:Props){
 
     if(!(active && account && provider)) return
 
-    const token = new Contract(addressContract, BadgeTokenABI, provider);
+    const available = await checkAvailable(provider,tokenId)
 
-    token.ownerOf(tokenId).then((result:string)=>{
+    if (! available){
       toast({
         title: "Token Id is already taken",
         status: 'error',
         isClosable: true,
       })
-    }).catch((error:any)=>{
-      // console.log(error.message)
-      if(! error.message.includes("ERC721: owner query for nonexistent token")) {
-        toast({
-          title: 'Something wrong',
-          status: 'error',
-          isClosable: true,
-        })
-        return
-      }
+      return      
+    }
 
-      setIsMinting(true)
-      helperMint(provider, account, tokenId).then(()=>{
-        // do nothing here, and will listen to transfer event
-      }).catch((error:ProviderRpcError)=>{
-        // console.error
-        setIsMinting(false)
-      })
-    })//catch end
+    setIsMinting(true)
+
+    helperMint(provider, account, tokenId)
+    .then(()=>{
+      // do nothing here, and will listen to transfer event
+    }).catch((error:ProviderRpcError)=>{
+      // console.error
+      setIsMinting(false)
+    })
   
   }
 

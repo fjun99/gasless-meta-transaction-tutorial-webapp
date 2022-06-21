@@ -42,3 +42,18 @@ export async function helperMint(provider:Web3Provider,account:string, tokenId:n
     return sendMetaTx(token, tokenId,provider,account)
   } 
 }
+
+export async function checkAvailable(provider:Web3Provider, tokenId:number): Promise<Boolean> {
+
+  const token = new Contract(addressContract, BadgeTokenABI, provider); 
+
+  const availabe = await token.ownerOf(tokenId)
+        .catch((error:any)=>{
+          // if(! error.message.includes("ERC721: owner query for nonexistent token")) {
+          //   return false
+          // }
+          return false
+        })
+  
+  return (! availabe)
+}
