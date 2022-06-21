@@ -88,19 +88,18 @@ export default function MintNFTGasless(props:Props){
 
         setIsMinting(false)
         toast.closeAll()
-
         toast({
           title: `Mint NFT ${tokenId} succeed`,
           status: 'success',
           isClosable: true,
         })        
 
-        token.removeAllListeners(toMe)
     })
 
     // remove listener when the component is unmounted
     return () => {
         token.removeAllListeners(toMe)
+        console.log(`listening for Transfer... Listener removed`)
     }    
   }, [isMinting])
 
