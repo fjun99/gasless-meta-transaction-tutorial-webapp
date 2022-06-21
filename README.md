@@ -1,4 +1,11 @@
-# webapp-tutorial-using-web3react
+# NFT gasless mint
+
+`.env`
+
+```
+NEXT_PUBLIC_WEBHOOK_URL=https://api.defender.openzeppelin.com/autotasks/...
+```
+---
 
 Stack Used: 
 
