@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useWeb3React } from '@web3-react/core'
 import { Web3Provider } from '@ethersproject/providers'
 import { Contract } from "@ethersproject/contracts";
-import { Button, NumberInput, NumberInputField, FormControl, Heading } from '@chakra-ui/react'
+import { Button, NumberInput, NumberInputField, FormControl, Heading, Progress } from '@chakra-ui/react'
 import { BadgeTokenABI } from "abi/BadgeTokenABI"
 import { useToast } from '@chakra-ui/react'
 import { helperMint, checkAvailable } from "../eth/mintHepler"
@@ -111,6 +111,8 @@ export default function MintNFTGasless(props:Props){
             isDisabled={!account || isMinting }>
               { isMinting  ? 'minting...' : 'Mint NFT'}               
           </Button>
+
+          <Progress size='xs' isIndeterminate={isMinting} hidden={!isMinting}/>
         </FormControl>
       </form>
     </div>
