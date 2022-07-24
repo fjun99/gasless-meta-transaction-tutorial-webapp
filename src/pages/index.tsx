@@ -1,7 +1,7 @@
 // src/pages/index.tsx
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { VStack, Heading, Box} from "@chakra-ui/layout"
+import { VStack, Heading, Box, Text} from "@chakra-ui/layout"
 import { addressContract }  from '../constants'
 import MintNFT from 'components/MintNFT'
 import MintNFTGasless from 'components/MintNFTGasless'
@@ -16,13 +16,21 @@ const Home: NextPage = () => {
         <title>Web3 Elites</title>
       </Head>
 
-      <Heading as="h3"  my={4}>Web3 Elites 训练营</Heading> 
+      <Heading as="h3"  my={4}>Web3 Elites - WE NFT</Heading> 
       <ConnectMetamask />
 
       <VStack >
         <Box  my={4} p={4} w='100%' borderWidth="1px" borderRadius="lg" >
           <MintNFTGasless addressContract={addressContract} />
         </Box>
+
+        <Box  my={4} p={4} w='100%' >
+          <Text> 成功后，可在 Opensea 查看：<a href="https://opensea.io/collection/web3elite-nft"> https://opensea.io/collection/web3elite-nft </a> </Text>
+        </Box>
+
+        <Box  my={4} p={4} w='100%' >
+          <Text> 你不能铸造重复的编号（Token ID），请选择未被铸造的编号。</Text>
+        </Box>        
       </VStack>
     </>
   )
