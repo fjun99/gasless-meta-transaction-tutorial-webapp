@@ -7,11 +7,53 @@ import { injected } from 'utils/connectors'
 import { UserRejectedRequestError } from '@web3-react/injected-connector'
 import { formatAddress } from 'utils/helpers'
 
+declare let window:any
 const ConnectMetamask = () => {
 
     const { chainId, account, activate,deactivate, setError, active,library ,connector} = useWeb3React<Web3Provider>()
 
-    const onClickConnect = () => {
+    const onClickConnect = async () => {
+
+      //metamask switch chain 
+      //client side code
+      if(!window.ethereum) {
+        console.log("please install MetaMask")
+        return
+      }
+
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x89' }],
+        });
+      } catch (switchError:any) {
+        // This error code indicates that the chain has not been added to MetaMask.
+        if (switchError.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '0x89',
+                  chainName: 'Matic(Polygon)Mainnet',
+                  rpcUrls: ['https://rpc-mainnet.matic.network'] /* ... */,
+                  blockExplorerUrls:'https://polygonscan.com/',
+                  nativeCurrency: {
+                    name: 'MATIC',
+                    symbol: 'MATIC', // 2-6 characters long
+                    decimals: 18,
+                  },
+                },
+              ],
+            });
+          } catch (addError) {
+            // handle "add" error
+          }
+        }
+        // handle other "switch" errors
+      }
+      //metamask switch chain end
+
       activate(injected,(error) => {
         if (error instanceof UserRejectedRequestError) {
           // ignore user rejected error
