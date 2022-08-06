@@ -84,8 +84,9 @@ export default function MintNFTGasless(props:Props){
         toast({
           title: `Mint NFT ${tokenId} succeed`,
           status: 'success',
-          duration: 20000,
+          duration: null,//20000
           isClosable: true,
+          position:'top'
         })        
 
     })
