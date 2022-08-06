@@ -60,7 +60,7 @@ export default function MintNFTGasless(props:Props){
 
   const handleChange = (value:string) => {
     let num = Number(value)
-    if(num >= 1000) num =999
+    // if(num >= 1000) num =999
 
     setTokenId(num)
   }
@@ -104,7 +104,7 @@ export default function MintNFTGasless(props:Props){
       <form onSubmit={mint}>
         <FormControl>
           <NumberInput size='lg' maxW={32}  my={2} isRequired = {true} isReadOnly = {isMinting}
-              defaultValue={tokenId} value ={tokenId} onChange={handleChange} >
+              defaultValue={tokenId} value ={tokenId} onChange={handleChange} max={999} keepWithinRange={true}>
               <NumberInputField />
           </NumberInput>
 
